@@ -39,3 +39,5 @@ include_directories(include ${Eigen_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 add_executable(mems_bias_publisher src/mems_bias_publisher.cpp src/mems_bias.cpp)
 target_link_libraries(mems_bias_publisher ${catkin_LIBRARIES})
+set_target_properties(mems_bias_publisher PROPERTIES COMPILE_FLAGS "-O3")
+

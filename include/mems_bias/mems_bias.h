@@ -20,12 +20,12 @@ class BiasParams
 {
 
  public:
-  Eigen::Matrix3d k_acc;
-  Eigen::Matrix3d k_mag;
+  Eigen::Matrix3d K_acc; /**< Linear acceleration estimate gain. */
+  Eigen::Matrix3d K_mag; /**< Magnetometer estimate gain. */
 
-  Eigen::Matrix3d k_acc_bias;
-  Eigen::Matrix3d k_ang_bias;
-  Eigen::Matrix3d k_mag_bias;
+  Eigen::Matrix3d K_acc_bias; /**< Linear acceleration bias gain. */
+  Eigen::Matrix3d K_ang_bias; /**< Angular-rate bias gain. */
+  Eigen::Matrix3d K_mag_bias; /**< Magnetometer bias gain. */
 
 };
 
@@ -39,13 +39,13 @@ class ImuPacket
 
  public:
 
-  Eigen::Vector3d ang;
-  Eigen::Vector3d acc;
-  Eigen::Vector3d mag;
+  Eigen::Vector3d ang; /**< Angular-rate measurement. */
+  Eigen::Vector3d acc; /**< Linear-acceleration measurement. */
+  Eigen::Vector3d mag; /**< Magnetometer measurement. */
 
-  int seq_num;
+  int seq_num; /**< Measurement sequence number. */
 
-  double t;
+  double t; /**< Measurement timestamp. */
 
 };
 
@@ -86,11 +86,11 @@ public:
 
  private:
 
-  double prev_time_;
+  double prev_time_; /**< Previous measurement timestamp. */
 
-  int start_;
+  int start_; 
 
-  BiasParams params_;
+  BiasParams params_; /**< Bias estimator parameters. */
 
 
 };

@@ -1,0 +1,56 @@
+<launch>
+    <!-- Node Settings -->
+    <arg name="output" default="screen"/>
+    <arg name="imu" default="imu"/>
+
+    <!-- IMU Settings -->
+    <arg name="device" default="/dev/ttyS0" />
+
+    <!-- Verbose logging -->
+    <arg name="verbose" default="false"/>
+
+    <!-- Frame ID for messages -->
+    <arg name="frame_id" default="$(arg imu)"/>
+
+    <!-- Baudrate of serial comms (see manual for allowed values) -->
+    <arg name="baudrate" default="921600"/>
+
+    <!-- Data rate in Hz -->
+    <arg name="imu_rate" default="1000"/>
+    <arg name="filter_rate" default="100"/>
+
+    <!-- Enable/Disable the magnetometer -->
+    <arg name="enable_magnetometer" default="true"/>
+
+    <!-- Enable/Disable the filter -->
+    <arg name="enable_filter" default="true"/>
+
+    <!-- Enable/Disable filter updates -->
+    <arg name="enable_accel_update" default="true"/>
+    <arg name="enable_mag_update" default="true"/>
+
+    <node pkg="imu_3dm_gx4" name="$(arg imu)" type="imu_3dm_gx4" output="$(arg output)">
+        <param name="device" type="string" value="$(arg device)" />
+        <param name="verbose" type="bool" value="$(arg verbose)"/>
+        <param name="baudrate" type="int" value="$(arg baudrate)" />
+        <param name="frame_id" type="string" value="$(arg frame_id)"/>
+        <param name="imu_rate" type="int" value="$(arg imu_rate)" />
+        <param name="filter_rate" type="int" value="$(arg filter_rate)"/>
+        <param name="enable_magnetometer" type="bool" value="$(arg enable_magnetometer)"/>
+        <param name="enable_filter" type="bool" value="$(arg enable_filter)"/>
+        <param name="enable_accel_update" type="bool" value="$(arg enable_accel_update)"/>
+        <param name="enable_mag_update" type="bool" value="$(arg enable_mag_update)"/>
+    </node>
+
+
+    <node pkg="mems_bias" type="mems_bias_publisher" name="mems_bias" output="screen">
+
+          <param name="k_acc" value="1,1,1" type="string" />
+	  <param name="k_mag" value="1,1,1" type="string" />
+	  <param name="k_acc_bias" value="0.1,0.1,0.1" type="string" />
+	  <param name="k_ang_bias" value="0.01,0.01,0.01" type="string" />
+	  <param name="k_mag_bias" value="0.5,0.5,0.5" type="string" />	       
+
+    </node>
+
+</launch>

@@ -62,13 +62,13 @@ void MEMSBias::step(ImuPacket measurement)
 
   double dt = measurement.t - prev_time_;
   
-  Eigen::Vector3d da          = acc_hat - measurement.acc;
-  Eigen::Vector3d dm          = mag_hat - measurement.mag;
-  Eigen::Vector3d acc_hat_dot = -skew(measurement.ang)*(acc_hat - acc_bias) + skew(ang_bias)*acc_hat - params_.k_acc*da;
-  Eigen::Vector3d mag_hat_dot = -skew(measurement.ang - ang_bias)*mag_hat + skew(measurement.ang)*mag_bias - params_.k_mag*dm;
-  Eigen::Vector3d ang_bias_dot     = -params_.k_ang_bias*(skew(measurement.acc)*da + skew(measurement.mag)*dm);
-  Eigen::Vector3d acc_bias_dot     = params_.k_acc_bias*skew(measurement.ang)*da;
-  Eigen::Vector3d mag_bias_dot     = params_.k_mag_bias*skew(measurement.ang)*dm;
+  Eigen::Vector3d da           = acc_hat - measurement.acc;
+  Eigen::Vector3d dm           = mag_hat - measurement.mag;
+  Eigen::Vector3d acc_hat_dot  = -skew(measurement.ang)*(acc_hat - acc_bias) + skew(ang_bias)*acc_hat - params_.K_acc*da;
+  Eigen::Vector3d mag_hat_dot  = -skew(measurement.ang - ang_bias)*mag_hat + skew(measurement.ang)*mag_bias - params_.K_mag*dm;
+  Eigen::Vector3d ang_bias_dot = -params_.K_ang_bias*(skew(measurement.acc)*da + skew(measurement.mag)*dm);
+  Eigen::Vector3d acc_bias_dot = params_.K_acc_bias*skew(measurement.ang)*da;
+  Eigen::Vector3d mag_bias_dot = params_.K_mag_bias*skew(measurement.ang)*dm;
 
 
   acc_hat  = acc_hat  + dt*acc_hat_dot;

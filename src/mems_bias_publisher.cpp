@@ -12,6 +12,25 @@
 #include <mems_bias/mems_bias.h>
 
 
+/**
+ *
+ * @brief Function for converting string to 3x3 diagonal matrix.
+ *
+ * @param str Comma seperated list of three diag elements. e.g. "1,1,1"
+ *
+ */
+Eigen::Matrix3d stringToDiag(std::string str)
+{
+  Eigen::Matrix3d diag;
+  Eigen::Vector3d vec;
+  sscanf(str.c_str(),"%lf,%lf,%lf",&vec(0),&vec(1),&vec(2));
+
+  diag << vec(0),0,0,0,vec(1),0,0,0,vec(2);
+
+  return diag;
+
+}
+
 
 /**
  *
@@ -41,11 +60,25 @@ public:
 
     BiasParams params;
 
-    params.k_acc      = Eigen::Matrix3d::Identity();
-    params.k_mag      = Eigen::Matrix3d::Identity();
-    params.k_acc_bias = Eigen::Matrix3d::Identity()/10;
-    params.k_ang_bias = Eigen::Matrix3d::Identity()/100;
-    params.k_mag_bias = Eigen::Matrix3d::Identity()/2;
+    ROS_INFO("Loading estimator params.");
+
+    std::string k_acc;
+    std::string k_mag;
+    std::string k_acc_bias;
+    std::string k_ang_bias;
+    std::string k_mag_bias;
+
+    n.param<std::string>("k_acc",k_acc, "1,1,1");
+    n.param<std::string>("k_mag",k_mag, "1,1,1");
+    n.param<std::string>("k_acc_bias",k_acc_bias, "0.1,0.1,0.1");
+    n.param<std::string>("k_ang_bias",k_ang_bias, "0.01,0.01,0.01");
+    n.param<std::string>("k_mag_bias",k_mag_bias, "0.5,0.5,0.5");
+
+    params.K_acc      = stringToDiag(k_acc);
+    params.K_mag      = stringToDiag(k_mag);
+    params.K_acc_bias = stringToDiag(k_acc_bias);
+    params.K_ang_bias = stringToDiag(k_ang_bias);
+    params.K_mag_bias = stringToDiag(k_mag_bias);
     
     chatter_ = n.advertise<mems_bias::ImuBias>("imu_bias",1);
 
