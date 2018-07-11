@@ -11,9 +11,47 @@
 
 #include <Eigen/Core>
 
+/**
+ *
+ * @brief Bias estimator params.
+ *
+ */
+class BiasParams
+{
+
+ public:
+  Eigen::Matrix3d k_acc;
+  Eigen::Matrix3d k_mag;
+
+  Eigen::Matrix3d k_acc_bias;
+  Eigen::Matrix3d k_ang_bias;
+  Eigen::Matrix3d k_mag_bias;
+
+};
 
 /**
- * @brief Class for attitude adaptive identificaiton on SO(3).
+ *
+ * @brief IMU packet
+ *
+ */
+class ImuPacket
+{
+
+ public:
+
+  Eigen::Vector3d ang;
+  Eigen::Vector3d acc;
+  Eigen::Vector3d mag;
+
+  int seq_num;
+
+  double t;
+
+};
+
+
+/**
+ * @brief Class for adaptive IMU bias identificaiton.
  */
 class MEMSBias
 {
@@ -22,10 +60,10 @@ public:
   /**
    * @brief Constructor.
    *
-   * @param k Estimation gains and rolling mean window size (k(0): kg, k(1): kw, k(2): kf).
-   * @param hz Sampling hz.
+   * @param params Estimator parameters.
+   *
    */
-  MEMSBias(Eigen::VectorXd k);
+  MEMSBias(BiasParams params);
 
   
   virtual ~MEMSBias(void); /**< Destructor. */
@@ -33,38 +71,26 @@ public:
   /**
    * @brief Cycle estimation once.
    *
-   * @param ang Angular velocity measurement.
-   * @param acc Linear acceleration measurement.
-   * @param mag Magnetometer measurement.
-   * @param dt Time between last two measurements.
-   * @param t Time.
+   * @param measurement IMU measurement packet.
+   *
    */
-  void step(Eigen::Vector3d ang,Eigen::Vector3d acc, Eigen::Vector3d mag, float t);
+  void step(ImuPacket measurement);
 
   
   Eigen::Vector3d acc_hat;
   Eigen::Vector3d mag_hat;
-  Eigen::Vector3d w_b;
-  Eigen::Vector3d a_b;
-  Eigen::Vector3d m_b;
+  Eigen::Vector3d ang_bias;
+  Eigen::Vector3d acc_bias;
+  Eigen::Vector3d mag_bias;
 
 
  private:
 
-  float lat_; /**< Latitude. */
+  double prev_time_;
 
   int start_;
 
-  float kg_;
-  float kn_;
-  float ka_;
-  float km_; 
-  float kab_;
-  float kmb_;
-  float kwb_;
-
-  Eigen::Vector3d a_n_;
-  Eigen::Vector3d m_n_;
+  BiasParams params_;
 
 
 };
