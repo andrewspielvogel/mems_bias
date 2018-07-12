@@ -18,7 +18,7 @@ find_package(Eigen3 REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME} dscl_msgs
-  CATKIN_DEPENDS message_runtime geometry_msgs std_msgs roscpp ${MSG_DEPS}
+  CATKIN_DEPENDS message_runtime geometry_msgs std_msgs roscpp dscl_msgs
 )
 
 
@@ -28,6 +28,7 @@ include_directories(include ${EIGEN3_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 
 add_executable(mems_bias_publisher src/mems_bias_publisher.cpp src/mems_bias.cpp)
+add_dependencies(mems_bias_publisher dscl_msgs_generate_messages_cpp)
 target_link_libraries(mems_bias_publisher ${catkin_LIBRARIES})
 set_target_properties(mems_bias_publisher PROPERTIES COMPILE_FLAGS "-O3")
 
