@@ -7,8 +7,8 @@
 
 
 #include <ros/ros.h>
-#include <mems_bias/Imu9DOF.h>
-#include <mems_bias/ImuBias.h>
+#include <dscl_msgs/Imu9DOF.h>
+#include <dscl_msgs/ImuBias.h>
 #include <mems_bias/mems_bias.h>
 #include <mems_bias/helper_funcs.h>
 
@@ -63,8 +63,8 @@ public:
     params.K_ang_bias = stringToDiag(k_ang_bias);
     params.K_mag_bias = stringToDiag(k_mag_bias);
     
-    chatter_ = n.advertise<mems_bias::ImuBias>("imu_bias",1);
-    chatter_corrected_ = n.advertise<mems_bias::Imu9DOF>("imu_corrected",1);
+    chatter_ = n.advertise<dscl_msgs::ImuBias>("imu_bias",1);
+    chatter_corrected_ = n.advertise<dscl_msgs::Imu9DOF>("imu_corrected",1);
 
     bias_ = new MEMSBias(params);
 
@@ -75,7 +75,7 @@ public:
    * @brief Publishing callback function.
    * 
    */
-  void callback(const mems_bias::Imu9DOF::ConstPtr& msg)
+  void callback(const dscl_msgs::Imu9DOF::ConstPtr& msg)
   {
 
     ImuPacket measurement;
@@ -89,8 +89,8 @@ public:
     bias_->step(measurement);
     
     // initialize mems_bias msg
-    mems_bias::ImuBias bias;
-    mems_bias::Imu9DOF imu_corrected;
+    dscl_msgs::ImuBias bias;
+    dscl_msgs::Imu9DOF imu_corrected;
 
     bias.header.stamp    = msg->header.stamp;
     

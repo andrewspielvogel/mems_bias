@@ -6,34 +6,24 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   geometry_msgs
-  genmsg
+  dscl_msgs
   rospy
 )
 
-add_message_files(
-  FILES
-  Imu9DOF.msg
-  ImuBias.msg
-)
 
+find_package(cmake_modules REQUIRED)
+find_package(Eigen3 REQUIRED)
 
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs
-)
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES mems_bias
-  CATKIN_DEPENDS message_runtime geometry_msgs std_msgs roscpp
+  LIBRARIES ${PROJECT_NAME} dscl_msgs
+  CATKIN_DEPENDS message_runtime geometry_msgs std_msgs roscpp ${MSG_DEPS}
 )
 
-## For Eigen library support
-find_package(cmake_modules REQUIRED)
-find_package(Eigen REQUIRED)
 
-include_directories(include ${Eigen_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+
+include_directories(include ${EIGEN3_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 
 
