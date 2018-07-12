@@ -25,6 +25,7 @@ class BiasNode
 private:
   
   ros::Publisher chatter_; /**< Node publisher. */
+  ros::Publisher chatter_corrected_;
 
   MEMSBias* bias_;
   
@@ -63,6 +64,7 @@ public:
     params.K_mag_bias = stringToDiag(k_mag_bias);
     
     chatter_ = n.advertise<mems_bias::ImuBias>("imu_bias",1);
+    chatter_corrected_ = n.advertise<mems_bias::Imu9DOF>("imu_corrected",1);
 
     bias_ = new MEMSBias(params);
 
@@ -88,6 +90,7 @@ public:
     
     // initialize mems_bias msg
     mems_bias::ImuBias bias;
+    mems_bias::Imu9DOF imu_corrected;
 
     bias.header.stamp    = msg->header.stamp;
     
@@ -101,8 +104,21 @@ public:
     bias.mag.y = bias_->mag_bias(1);
     bias.mag.z = bias_->mag_bias(2);
 
+    imu_corrected.header.stamp = msg->header.stamp;
+    imu_corrected.ang.x        = msg->ang.x - bias_->ang_bias(0);
+    imu_corrected.ang.y        = msg->ang.y - bias_->ang_bias(1);
+    imu_corrected.ang.z        = msg->ang.z - bias_->ang_bias(2);
+    imu_corrected.acc.x        = msg->acc.x - bias_->acc_bias(0);
+    imu_corrected.acc.y        = msg->acc.y - bias_->acc_bias(1);
+    imu_corrected.acc.z        = msg->acc.z - bias_->acc_bias(1);
+    imu_corrected.mag.x        = msg->mag.x - bias_->mag_bias(0);
+    imu_corrected.mag.y        = msg->mag.y - bias_->mag_bias(1);
+    imu_corrected.mag.z        = msg->mag.z - bias_->mag_bias(2);
+
+
     // publish packet
     chatter_.publish(bias);
+    chatter_corrected_.publish(imu_corrected);
     
   }
  
