@@ -7,29 +7,11 @@
 
 
 #include <ros/ros.h>
-#include <mems_bias/Imu9DOF.h> 
+#include <mems_bias/Imu9DOF.h>
 #include <mems_bias/ImuBias.h>
 #include <mems_bias/mems_bias.h>
+#include <mems_bias/helper_funcs.h>
 
-
-/**
- *
- * @brief Function for converting string to 3x3 diagonal matrix.
- *
- * @param str Comma seperated list of three diag elements. e.g. "1,1,1"
- *
- */
-Eigen::Matrix3d stringToDiag(std::string str)
-{
-  Eigen::Matrix3d diag;
-  Eigen::Vector3d vec;
-  sscanf(str.c_str(),"%lf,%lf,%lf",&vec(0),&vec(1),&vec(2));
-
-  diag << vec(0),0,0,0,vec(1),0,0,0,vec(2);
-
-  return diag;
-
-}
 
 
 /**
