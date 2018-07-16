@@ -11,6 +11,7 @@
 #include <dscl_msgs/ImuBias.h>
 #include <mems_bias/mems_bias.h>
 #include <helper_funcs/helper_funcs.h>
+#include <ros/node_handle.h>
 
 
 
@@ -31,6 +32,8 @@ private:
   
 public:
 
+  BiasParams params;
+
   /**
    *
    * @brief Constructor.
@@ -41,7 +44,6 @@ public:
   BiasNode(ros::NodeHandle n){
 
 
-    BiasParams params;
 
     ROS_INFO("Loading estimator params.");
 
@@ -56,13 +58,15 @@ public:
     n.param<std::string>("k_acc_bias",k_acc_bias, "0.1,0.1,0.1");
     n.param<std::string>("k_ang_bias",k_ang_bias, "0.01,0.01,0.01");
     n.param<std::string>("k_mag_bias",k_mag_bias, "0.5,0.5,0.5");
+    n.param<std::string>("frame_id",params.frameId, "imu");
 
     params.K_acc      = stringToDiag(k_acc);
     params.K_mag      = stringToDiag(k_mag);
     params.K_acc_bias = stringToDiag(k_acc_bias);
     params.K_ang_bias = stringToDiag(k_ang_bias);
     params.K_mag_bias = stringToDiag(k_mag_bias);
-    
+
+
     chatter_ = n.advertise<dscl_msgs::ImuBias>("imu_bias",1);
     chatter_corrected_ = n.advertise<dscl_msgs::Imu9DOF>("imu_corrected",1);
 
@@ -93,6 +97,7 @@ public:
     dscl_msgs::Imu9DOF imu_corrected;
 
     bias.header.stamp    = msg->header.stamp;
+    bias.header.frame_id  = params.frameId;
     
     bias.ang.x = bias_->ang_bias(0);
     bias.ang.y = bias_->ang_bias(1);
@@ -104,7 +109,9 @@ public:
     bias.mag.y = bias_->mag_bias(1);
     bias.mag.z = bias_->mag_bias(2);
 
-    imu_corrected.header.stamp = msg->header.stamp;
+    imu_corrected.header.stamp   = msg->header.stamp;
+    imu_corrected.header.frame_id = params.frameId;
+    
     imu_corrected.ang.x        = msg->ang.x - bias_->ang_bias(0);
     imu_corrected.ang.y        = msg->ang.y - bias_->ang_bias(1);
     imu_corrected.ang.z        = msg->ang.z - bias_->ang_bias(2);
@@ -130,7 +137,7 @@ int main(int argc, char **argv)
     // initialize node
     ros::init(argc, argv, "mems_bias");
 
-    ros::NodeHandle n;
+    ros::NodeHandle n("~");;
 
     ros::Subscriber sub; /**< Node subscriber to imu topic. */
 
@@ -140,7 +147,11 @@ int main(int argc, char **argv)
      **********************************************************************/
     BiasNode bias_est(n);
 
-    sub = n.subscribe("imu/imu",1,&BiasNode::callback, &bias_est);
+    char buffer[64];
+
+    sprintf(buffer,"/%s/imu",bias_est.params.frameId.c_str());
+
+    sub = n.subscribe(buffer,1,&BiasNode::callback, &bias_est);
     
     ros::spin();
     
