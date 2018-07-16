@@ -10,7 +10,7 @@
 #include <dscl_msgs/Imu9DOF.h>
 #include <dscl_msgs/ImuBias.h>
 #include <mems_bias/mems_bias.h>
-#include <mems_bias/helper_funcs.h>
+#include <helper_funcs/helper_funcs.h>
 
 
 
