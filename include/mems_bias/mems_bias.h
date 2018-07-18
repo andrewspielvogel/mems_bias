@@ -27,6 +27,7 @@ class BiasParams
   Eigen::Matrix3d K_ang_bias; /**< Angular-rate bias gain. */
   Eigen::Matrix3d K_mag_bias; /**< Magnetometer bias gain. */
 
+  std::string frameId;
 };
 
 

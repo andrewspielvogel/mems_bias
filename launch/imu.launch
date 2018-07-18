@@ -1,7 +1,7 @@
 <launch>
     <!-- Node Settings -->
     <arg name="output" default="screen"/>
-    <arg name="imu" default="imu"/>
+    <arg name="imu" default="ms"/>
 
     <!-- IMU Settings -->
     <arg name="device" default="/dev/ttyS0" />
@@ -43,13 +43,15 @@
     </node>
 
 
-    <node pkg="mems_bias" type="mems_bias_publisher" name="mems_bias" output="screen">
+    <node pkg="mems_bias" type="mems_bias_publisher" name="$(arg frame_id)_bias" output="$(arg output)">
 
           <param name="k_acc" value="1,1,1" type="string" />
 	  <param name="k_mag" value="1,1,1" type="string" />
 	  <param name="k_acc_bias" value="0.1,0.1,0.1" type="string" />
 	  <param name="k_ang_bias" value="0.01,0.01,0.01" type="string" />
-	  <param name="k_mag_bias" value="0.5,0.5,0.5" type="string" />	       
+	  <param name="k_mag_bias" value="0.5,0.5,0.5" type="string" />
+	  <param name="frame_id" type="string" value="$(arg frame_id)"/>
+
 
     </node>
 
