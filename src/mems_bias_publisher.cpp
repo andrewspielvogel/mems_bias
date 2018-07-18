@@ -26,7 +26,7 @@ private:
   
   ros::Publisher chatter_; /**< Node publisher. */
 
-  MEMSBias* bias_;
+  MEMSBias* bias_; /**< Bias estimator object.*/
   
 public:
 
