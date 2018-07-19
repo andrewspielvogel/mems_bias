@@ -22,7 +22,7 @@
  *
  */
 
-MEMSBias::MEMSBias(BiasParams params) 
+MEMSBias::MEMSBias(config_params params) 
 {
   
   params_ = params;
@@ -78,5 +78,10 @@ void MEMSBias::step(ImuPacket measurement)
   mag_bias = mag_bias + dt*mag_bias_dot;
   
   prev_time_ = measurement.t;
+
+  imu_corrected = measurement;
+  imu_corrected.ang = measurement.ang - ang_bias;
+  imu_corrected.acc = measurement.acc - acc_bias;
+  imu_corrected.mag = measurement.mag - mag_bias;
   
 }

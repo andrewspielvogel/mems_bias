@@ -32,7 +32,7 @@ private:
   
 public:
 
-  BiasParams params;
+  config_params params;
 
   /**
    *
