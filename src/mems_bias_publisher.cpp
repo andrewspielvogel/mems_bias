@@ -25,8 +25,8 @@ class BiasNode
 
 private:
   
-  ros::Publisher chatter_; /**< Node publisher. */
-  ros::Publisher chatter_corrected_;
+  ros::Publisher chatter_; /**< IMU Bias Publisher. */
+  ros::Publisher chatter_corrected_; /**< Corrected IMU Measurement Publisher. */
 
   MEMSBias* bias_; /**< Bias estimator object.*/
   
