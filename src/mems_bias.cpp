@@ -29,9 +29,9 @@ MEMSBias::MEMSBias(config_params params)
 
   start_ = 0;
   
-  acc_bias << 0,0,0;
-  ang_bias << 0,0,0;
-  mag_bias << 0,0,0;
+  acc_bias = params.acc_bias;
+  ang_bias = params.ang_bias;
+  mag_bias = params.mag_bias;
 
 }
 

@@ -52,12 +52,18 @@ public:
     std::string k_acc_bias;
     std::string k_ang_bias;
     std::string k_mag_bias;
+    std::string acc_bias;
+    std::string ang_bias;
+    std::string mag_bias;
 
     n.param<std::string>("k_acc",k_acc, "1,1,1");
     n.param<std::string>("k_mag",k_mag, "1,1,1");
     n.param<std::string>("k_acc_bias",k_acc_bias, "0.1,0.1,0.1");
     n.param<std::string>("k_ang_bias",k_ang_bias, "0.01,0.01,0.01");
     n.param<std::string>("k_mag_bias",k_mag_bias, "0.5,0.5,0.5");
+    n.param<std::string>("acc_bias",acc_bias, "0,0,0");
+    n.param<std::string>("ang_bias",ang_bias, "0,0,0");
+    n.param<std::string>("mag_bias",mag_bias, "0,0,0");
     n.param<std::string>("frame_id",params.frameId, "imu");
 
     params.K_acc      = stringToDiag(k_acc);
