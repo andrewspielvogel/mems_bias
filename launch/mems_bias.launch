@@ -10,7 +10,7 @@
 	  <param name="acc_bias" value="[0,0,0]" type="string" />
 	  <param name="ang_bias" value="[0,0,0]" type="string" />
 	  <param name="mag_bias" value="[0,0,0]" type="string" />
-	  <param name="frame_id" type="string" value="ms_bias"/>
+	  <param name="frame_id" type="string" value="ms"/>
 
 
     </node>
