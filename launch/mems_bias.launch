@@ -1,12 +1,17 @@
 <launch>
 
-    <node pkg="mems_bias" type="mems_bias_publisher" name="mems_bias" output="screen">
+    <node pkg="mems_bias" type="mems_bias_publisher" name="ms_bias" output="screen">
 
-          <param name="k_acc" value="1,1,1" type="string" />
-	  <param name="k_mag" value="1,1,1" type="string" />
-	  <param name="k_acc_bias" value="0.1,0.1,0.1" type="string" />
-	  <param name="k_ang_bias" value="0.01,0.01,0.01" type="string" />
-	  <param name="k_mag_bias" value="0.5,0.5,0.5" type="string" />	       
+          <param name="k_acc" value="[0.1,0.1,0.1]" type="string" />
+	  <param name="k_mag" value="[1,1,1]" type="string" />
+	  <param name="k_acc_bias" value="[0.01,0.01,0.1]" type="string" />
+	  <param name="k_ang_bias" value="[0.0001,0.0001,0.01]" type="string" />
+	  <param name="k_mag_bias" value="[1,1,1]" type="string" />
+	  <param name="acc_bias" value="[0,0,0]" type="string" />
+	  <param name="ang_bias" value="[0,0,0]" type="string" />
+	  <param name="mag_bias" value="[0,0,0]" type="string" />
+	  <param name="frame_id" type="string" value="ms_bias"/>
+
 
     </node>
 
