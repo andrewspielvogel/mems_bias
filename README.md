@@ -55,7 +55,6 @@ The node subscribes to the "/frame_id/imu" topic.
 roslaunch mems_bias mems_bias.launch
 ```
 launches the bias estimator.
-```
 
 
 ## Generate Documentation
