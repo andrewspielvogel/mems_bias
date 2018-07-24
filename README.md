@@ -58,7 +58,7 @@ launches the bias estimator.
 Node subscribed to:
 - IMU Data topic (dscl_msgs::Imu9DOF)
 ```
-/frame_id/imu" topic
+/frame_id/imu topic
 ```
 
 Topics published:
