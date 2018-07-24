@@ -48,13 +48,28 @@ frame_id: Frame ID of the IMU Node subscribing to.
 
 ## Using the Node
 
-The node subscribes to the "/frame_id/imu" topic.
-
 - Start Node via launch files:
 ```
 roslaunch mems_bias mems_bias.launch
 ```
 launches the bias estimator.
+
+## Topics
+Node subscribed to:
+- IMU Data topic (dscl_msgs::Imu9DOF)
+```
+/frame_id/imu" topic
+```
+
+Topics published:
+- IMU bias topic (dscl_msgs::ImuBias)
+```
+/frame_id_bias/imu_bias
+```
+- Bias corrected IMU packet (dscl_msgs::Imu9DOF)
+```
+/frame_id_bias/imu_corrected
+```
 
 
 ## Generate Documentation
