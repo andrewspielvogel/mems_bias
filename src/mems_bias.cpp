@@ -60,7 +60,7 @@ void MEMSBias::step(ImuPacket measurement)
    * Sensor Bias Estimator
    **************************************************************/
 
-  double dt = measurement.t - prev_time_;
+  double dt = 1.0/((double)params_.hz);//measurement.t - prev_time_;
   
   Eigen::Vector3d da           = acc_hat - measurement.acc;
   Eigen::Vector3d dm           = mag_hat - measurement.mag;
