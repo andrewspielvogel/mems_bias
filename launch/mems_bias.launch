@@ -3,13 +3,13 @@
     <node pkg="mems_bias" type="mems_bias_publisher" name="ms_bias" output="screen" respawn="true">
 
           <param name="k_acc" value="[0.1,0.1,0.1]" type="string" />
-	  <param name="k_mag" value="[1,1,1]" type="string" />
-	  <param name="k_acc_bias" value="[0.01,0.01,0.1]" type="string" />
-	  <param name="k_ang_bias" value="[0.0001,0.0001,0.01]" type="string" />
-	  <param name="k_mag_bias" value="[1,1,1]" type="string" />
+	  <param name="k_mag" value="[0.1,0.1,0.1]" type="string" />
+	  <param name="k_acc_bias" value="[0.25,0.25,0.25]" type="string" />
+	  <param name="k_ang_bias" value="[0.000005,0.000005,0.000005]" type="string" />
+	  <param name="k_mag_bias" value="[0.25,0.25,0.25]" type="string" />
 	  <param name="acc_bias" value="[0,0,0]" type="string" />
 	  <param name="ang_bias" value="[0,0,0]" type="string" />
-	  <param name="mag_bias" value="[0,0,0]" type="string" />
+	  <param name="mag_bias" value="[0.08,0.04,0]" type="string" />
 	  <param name="frame_id" type="string" value="ms"/>
 
 
